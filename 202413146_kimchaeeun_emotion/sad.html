@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat&family=Gloria+Hallelujah&family=Nanum+Pen+Script&family=Reenie+Beanie&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+
+  <meta charset="UTF-8" />
+  <title>SAD DAY</title>
+  <link rel="stylesheet" href="sad.css" />
+</head>
+<body>
+  <div id="container"></div>
+
+  <script>
+    const container = document.getElementById('container');
+    const words = ['SAD DAY', 'HOMEWORK', 'SAD', '슬픔', '무기력', '지침', '피곤'];
+
+    function createFallingWord() {
+      const word = document.createElement('div');
+      word.classList.add('word');
+      word.textContent = words[Math.floor(Math.random() * words.length)];
+      const fonts = [
+  "'Caveat', cursive",
+  "'Gloria Hallelujah', cursive",
+  "'Nanum Pen Script', cursive",
+  "'Reenie Beanie', cursive",
+  "'Shadows Into Light', cursive"
+];
+
+word.style.fontFamily = fonts[Math.floor(Math.random() * fonts.length)];
+
+
+      // 가운데 위치 조정
+      word.style.left = '50%';
+      word.style.transform = `translateX(-50%)`;
+
+      // 랜덤 스타일
+      word.style.fontSize = `${Math.random() * 2 + 1}rem`;
+      word.style.animationDuration = `${Math.random() * 1.5 + 12}s`;
+      word.style.animationDuration = `${Math.random() * 4 + 1.5}s`; // 1.5초 ~ 5.5초
+
+
+      word.addEventListener('click', () => {
+  const rect = word.getBoundingClientRect();
+
+  const explodeEl = document.createElement('div');
+  explodeEl.textContent = word.textContent;
+  explodeEl.className = 'explode';
+  explodeEl.style.position = 'absolute';
+  explodeEl.style.left = `${rect.left}px`;
+  explodeEl.style.top = `${rect.top + window.scrollY}px`; // 스크롤 고려!
+  explodeEl.style.font = window.getComputedStyle(word).font;
+  explodeEl.style.color = window.getComputedStyle(word).color;
+
+  document.body.appendChild(explodeEl);
+
+  setTimeout(() => {
+    explodeEl.remove();
+  }, 600);
+
+  word.remove(); // 원래 단어는 삭제
+});
+
+
+      container.appendChild(word);
+
+      // 자동 제거
+      setTimeout(() => {
+        if (word.parentNode) word.remove();
+      }, 6000);
+    }
+
+    setInterval(createFallingWord, 300);
+  </script>
+</body>
+</html>
